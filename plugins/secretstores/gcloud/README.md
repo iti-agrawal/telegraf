@@ -1,6 +1,6 @@
 # Docker Secrets Secret-Store Plugin
 
-The `gdchauth` plugin allows to fetch token for a service account file and STS audience.
+The `gcloud` plugin allows to fetch token for a service account file and STS audience.
 
 ## Usage <!-- @/docs/includes/secret_usage.md -->
 
@@ -16,14 +16,11 @@ store usage.
 
 ```toml @sample.conf
 # Secret-store to retrieve secrets from Google Cloud Authenticator
-[secretstores.gdchauth]
-  id = "gdchauthsecret"
-  ## Path to the GDCH service account JSON key file
-  service_account_file = "/etc/telegraf/gdch-key.json"
-  audience = "https://{GDCH_URL}"
-  
-  ##Time before token expiry to fetch a new one.
-  # token_expiry_buffer = "5m"
+[secretstores.gcloud]
+  id = "gcloud_secret"
+  ## Path to the service account JSON key file
+  service_account_file = "/etc/telegraf/service-account.json"
+  audience = "https://{TOKEN_URL}"
 ```
 
 ### Referencing Secret within a Plugin
@@ -32,7 +29,7 @@ Referencing the secret within a plugin occurs by:
 
 ```toml
 [[inputs.http]]
-  token = "@{gdchauthsecret:token}"
+  token = "@{gcloud_secret:token}"
 ```
 
 ## Additional Information
